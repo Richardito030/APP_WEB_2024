@@ -1,0 +1,20 @@
+{% extends "layouts/layouts.html" %}
+
+{% block title %}
+{{title}}Django
+{% endblock title %}
+
+{% block content %}
+    <h1> {{title}} </h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        
+        {{register_form.errors}}
+
+        {% for field in  register_form %}
+            {{field.label_tag}}
+            {{field}}
+        {% endfor %}
+        <input type="submit" value="Registarse" />
+    </form>
+{% endblock %}

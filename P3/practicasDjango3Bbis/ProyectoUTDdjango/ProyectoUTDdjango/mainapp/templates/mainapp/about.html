@@ -1,9 +1,12 @@
-{% extends "layouts/layout.html" %}
-{% block tittle %}
+{% extends "layouts/layouts.html" %}
 
-{% endblock tittle %}
+{% block title %}
+    {{title}}Django
+{% endblock title %}
 
 {% block content %}
-    <h1>{{tittle}}</h1>
-    <h2>{{content}}</h2>
+    <h1> {{title}}  </h1>
+    <p> {{content}} </p>
+
 {% endblock content %}
+

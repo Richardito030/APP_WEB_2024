@@ -66,18 +66,18 @@ nav{
    font-size: 15px;
 }
 
-nav ul{
+nav > ul{
    text-decoration: none;
    list-style: none;
 }
 
-nav ul li{
+nav > ul > li{
    line-height: 40px;
    float: left;
 
 }
 
-nav ul li a{
+nav > ul > li > a{
    color:#d1d4d6;
    display: block;
    padding-left: 15px;

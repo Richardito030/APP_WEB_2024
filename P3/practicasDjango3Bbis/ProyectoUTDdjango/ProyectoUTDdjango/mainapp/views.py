@@ -1,91 +1,86 @@
-from django.shortcuts import render, HttpResponse, redirect
-""" from django.contrib.auth.forms import UserCreationForm """
-from mainapp.forms import RegisterForm
+from django.shortcuts import render, redirect
+#from django.contrib.auth.forms import UserCreationForm
+from .form import RegisterForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-def index(requets):
-    return render(requets,'mainapp/index.html',{
-        'tittle':'Inicio',
-        'content':'Bienvenido a mi pagina de incio',
+
+def custom_404_view(request, exception):
+    return redirect('mainapp:inicio')
+
+def index(request):
+    mensaje = 'hola soy un mensaje'
+    return render(request, 'mainapp/index.html', {
+        'title': '  Inicio',
+        'content': 'Bienvenido a la pagina principal',
+        'mensaje': mensaje
     })
 
-def acercade(requets):
-    return render(requets,'mainapp/about.html',{
-        'tittle':'Acerca de ...',
-        'content':'Somos una empresa de desarrollo de SW Multiplataforma con Django',
+@login_required(login_url='mainapp:inicio')
+def about(request):
+    return render(request, 'mainapp/about.html', {
+        'title': 'Acerca de nosotros',
+        'content': 'Somos un equipo de Desarrollo de SW'
     })
 
-def mision(requets):
-
-    return render(requets,'mainapp/mision.html',{
-        'tittle':'Mision',
+@login_required(login_url='mainapp:inicio')
+def mision(request):
+    return render(request, 'mainapp/mision.html', {
+        'title': 'Mision',
+        'content': 'La mision de la empresa'
     })
 
-def vision(requets):
-    return render(requets,'mainapp/vision.html',{
-        'tittle':'Vision',
+@login_required(login_url='mainapp:inicio')
+def vision(request):
+    return render(request, 'mainapp/vision.html', {
+        'title': 'Vision',
+        'content': 'La vision de la empresa'
     })
 
-def registro(requets):
+def registro(request):
+    if request.user.is_authenticated:
+        return redirect('mainapp:inicio')
+    else:
+        register_form = RegisterForm()
 
-    if requets.user.is_authenticated:
-        return redirect ('inicio')
-    else: 
-        register_form=RegisterForm()
-
-        if requets.method == "POST":
-            register_form=RegisterForm(requets.POST)
-
+        if request.method == 'POST':
+            register_form = RegisterForm(request.POST)
             if register_form.is_valid():
                 register_form.save()
-                messages.success(requets,"¡registro Exitoso!")
-                return redirect('inicio')
-
-        return render(requets,'mainapp/registro.html',{
-            'tittle':'registro de sesion',
-            'register_form':register_form
-        })
-
-
-
-
-
-
-def inicioS(request):
-    if request.user.is_authenticated:
-        return redirect('inicio')
-    else:
-        if request.method == "POST":
-            username=request.POST.get('username')
-            password=request.POST.get('pass')
-
-            user = authenticate(request,username=username, password=password)
-            if user is not None:
-                login(request,user)
-                messages.warning(request, "bienvenido al inicio de sesion")
-                return redirect('inicio')
+                messages.success(request, 'Usuario registrado correctamente')
+                return redirect('mainapp:inicio')
             else:
-                messages.warning(request, "no se puede iniciar")
-        return render(request, 'mainapp/inicioS.html', {
-            'title': 'Registro',
-            'content': 'Formulario de inicio de sesión'
-        })
-    
+                messages.error(request, 'Error al registrar usuario')
+        
+    return render(request, 'users/registro.html', {
+        'title': 'Registro',
+        'register_form': register_form
+    })
+
+def inicioSesion(request):
+    if request.user.is_authenticated:
+        return redirect('mainapp:inicio')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Bienvenido al inicio de sesión {}'.format(user.username))
+                return redirect('mainapp:inicio')
+            else:
+                messages.error(request, 'Usuario o contraseña incorrectos')
+     
+    return render(request, 'users/login.html', {
+        'title': 'Inicio de sesion',
+        'content': 'Formulario de inicio de sesion'
+    })
 
 def logout_user(request):
     logout(request)
-    
-    return redirect('inicio')
-# En views.py
-
-#Redireccion 404
-def redireccion_404(request, exception):
-    # Redirige a la URL deseada, por ejemplo, la página de inicio
-    return redirect('inicio') 
-#redireccion segunda forma
-def error_404_2(request, exception):
-    return render(request, 'mainapp/404.html')
-
+    return redirect('mainapp:inicio')

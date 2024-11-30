@@ -1,0 +1,25 @@
+{% extends "layouts/layouts.html" %}
+
+{% block title %}
+{{title}}Django
+{% endblock title %}
+
+{% block content %}
+    <h1> {{title}} </h1>
+    {% if  messages%}
+        {% for  message in  messages %}
+            <div class="alert-warning">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{register_form.errors}}
+        <label for="username">Nombre del Usuario</label>    
+        <input type="text" name="username" id="username" required>
+        <label for="password">Contraseña</label>
+        <input type="password" name="password" id="password" required>
+        <button type="submit">Iniciar sesión</button>
+    </form>
+{% endblock %}

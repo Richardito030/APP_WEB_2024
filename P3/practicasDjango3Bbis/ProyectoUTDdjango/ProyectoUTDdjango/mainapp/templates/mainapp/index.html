@@ -1,17 +1,26 @@
-{% extends "layouts/layout.html" %}
-{% block tittle %}
+{% extends "layouts/layouts.html" %}
 
-{% endblock tittle %}
+{% block title %}
+{{title}}Django
+{% endblock title %}
 
 {% block content %}
-    <h1>{{title}}</h1>
-    <h2>{{content}}</h2>
-
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert-succes">
-        {{message}}
-    </div>
+    <h1> {{title}} </h1>
+    <p> {{content}} </p>
+    {% if  messages%}
+        {% for  message in  messages %}
+            <div class="alert-success">
+                {{message}}
+            </div>
         {% endfor %}
-{% endif %}
-{% endblock content %}
+    {% endif %}
+
+    {% if  user.email %}
+        <br><hr><br>
+        <h2>Bienvenido al sistema {{user.first_name}} {{user.last_name}} </h2>
+        <p> {{user.email}} </p>
+    {% else %}
+        <h2>Por favor inicia sesión... ok </h2>
+    {% endif %}
+    <p> {{mensaje}} </p>
+{% endblock %}

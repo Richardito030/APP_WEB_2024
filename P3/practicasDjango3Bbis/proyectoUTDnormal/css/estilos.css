@@ -12,6 +12,15 @@ p,h1,h2{
    margin-bottom: 20px;
 }
 
+
+img {
+   display: block !important;
+   visibility: visible !important;
+   max-width: none !important;
+   height: auto !important;
+}
+
+
 ul,ol{
    margin-left: 20px;
 }

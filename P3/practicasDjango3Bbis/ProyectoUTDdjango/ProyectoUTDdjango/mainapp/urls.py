@@ -1,15 +1,16 @@
+# mainapp/urls.py
 from django.urls import path
 from . import views
 
+app_name = 'mainapp'  # Define un espacio de nombres para tus rutas
+
 urlpatterns = [
-    path('', views.index,name='inicio'),
-    path('inicio/', views.index,name='inicio'),
-    path('acercade/', views.acercade,name='acercade'),
-    path('mision/', views.mision,name='mision'),
-    path('vision/', views.vision,name='vision'),
-    path('inicioS/', views.inicioS,name='inicioS'),
-    path('registro/', views.registro,name='registro'),
-    path('logout/', views.logout_user,name='logout'),
-
-
+    path('', views.index, name='inicio'),
+    path('inicio/', views.index, name='inicio_alt'),
+    path('acercade/', views.about, name='acercade'),
+    path('mision/', views.mision, name='mision'),
+    path('vision/', views.vision, name='vision'),
+    path('registro/', views.registro, name='registro'),
+    path('inicioSesion/', views.inicioSesion, name='inicioSesion'),
+    path('logout/', views.logout_user, name='logout'),
 ]
